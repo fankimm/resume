@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Dev Workflow | 김지환</title>
+  <meta name="description" content="Claude Code + MCP 기반 AI 개발 자동화 워크플로우 상세">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0b; --bg-secondary: #111113; --bg-card: #16161a;
+      --bg-card-hover: #1c1c21; --bg-code: rgba(255,255,255,0.05);
+      --text-primary: #ededef; --text-secondary: #94949e; --text-tertiary: #5a5a65;
+      --accent: #f43f5e; --accent-dim: rgba(244,63,94,0.15); --accent-glow: rgba(244,63,94,0.08);
+      --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    [data-theme="light"] {
+      --bg-primary: #fafafa; --bg-secondary: #f4f4f5; --bg-card: #ffffff;
+      --bg-card-hover: #ffffff; --bg-code: rgba(0,0,0,0.04);
+      --text-primary: #18181b; --text-secondary: #52525b; --text-tertiary: #a1a1aa;
+      --accent: #e11d48; --accent-dim: rgba(225,29,72,0.08); --accent-glow: rgba(225,29,72,0.04);
+      --border: rgba(0,0,0,0.06); --border-hover: rgba(0,0,0,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    :root { --max-w: 760px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background 0.4s ease, color 0.4s ease; }
+    ::selection { background: var(--accent-dim); color: var(--accent); }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: var(--bg-primary); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+    .top-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; }
+    .theme-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .theme-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    .theme-btn svg { width: 16px; height: 16px; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 48px 24px 80px; }
+    .project-header { margin-bottom: 48px; }
+    .project-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .project-title { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+    .project-meta { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+    .project-meta span + span::before { content: '·'; margin: 0 8px; }
+    .project-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.8; max-width: 600px; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tech-stack span { background: var(--bg-code); color: var(--text-secondary); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .section { margin-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title::before { content: ''; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .card p, .card li { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .card ul { padding-left: 20px; }
+    .card ul li { margin-bottom: 4px; }
+    .screenshot-placeholder { background: var(--bg-secondary); border: 2px dashed var(--border-hover); border-radius: 12px; padding: 48px 24px; text-align: center; color: var(--text-tertiary); font-size: 13px; margin-bottom: 16px; }
+    .screenshot-placeholder svg { width: 32px; height: 32px; margin-bottom: 8px; opacity: 0.4; }
+    .highlight-list { list-style: none; padding: 0; }
+    .highlight-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .highlight-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+    .flow-diagram {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding: 24px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 16px;
+    }
+    .flow-step {
+      background: var(--bg-code); border: 1px solid var(--border);
+      padding: 10px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .flow-step.highlight { background: var(--accent-dim); color: var(--accent); border-color: transparent; }
+    .flow-arrow { color: var(--text-tertiary); font-size: 16px; }
+
+    footer { text-align: center; padding: 32px 24px; font-size: 12px; color: var(--text-tertiary); border-top: 1px solid var(--border); }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    @media (max-width: 640px) { .project-title { font-size: 28px; } .container { padding: 32px 16px 60px; } .flow-diagram { justify-content: center; } }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        이력서로 돌아가기
+      </a>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="project-header">
+      <div class="project-badge">Automation</div>
+      <h1 class="project-title">AI Dev Workflow</h1>
+      <div class="project-meta">
+        <span>2025 ~ 현재</span>
+        <span>퍼플아이오 (코오롱FnC 자회사)</span>
+      </div>
+      <p class="project-intro">
+        Claude Code와 MCP(Model Context Protocol)를 활용해 개발 전 과정을 자동화한 워크플로우.
+        태스크 할당부터 코드 구현, 코드 리뷰, 배포, 알림까지 사람 개입을 최소화.
+      </p>
+      <div class="tech-stack">
+        <span>Claude Code</span><span>MCP</span><span>Asana API</span>
+        <span>Slack API</span><span>GitLab CI</span><span>Shell Script</span>
+      </div>
+    </div>
+
+    <!-- 워크플로우 다이어그램 -->
+    <div class="section">
+      <h3 class="section-title">워크플로우</h3>
+      <div class="flow-diagram">
+        <span class="flow-step highlight">Asana 폴링</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">태스크 분석</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step highlight">Claude Code 구현</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">GitLab MR</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">CI/CD 배포</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step highlight">Slack 알림</span>
+      </div>
+      <div class="screenshot-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <br>📸 Slack 알림 스크린샷 또는 워크플로우 실행 화면
+      </div>
+    </div>
+
+    <!-- 구성 요소 -->
+    <div class="section">
+      <h3 class="section-title">구성 요소</h3>
+      <div class="card">
+        <h4>Asana MCP 연동</h4>
+        <p>Asana 프로젝트의 태스크를 주기적으로 폴링하여 새로운 작업 감지. 태스크 제목, 설명, 우선순위를 파싱하여 개발 컨텍스트로 변환.</p>
+      </div>
+      <div class="card">
+        <h4>Claude Code 자동 구현</h4>
+        <p>파싱된 태스크 컨텍스트를 기반으로 Claude Code가 코드 분석 → 구현 → 테스트까지 자동 수행. MCP를 통해 프로젝트 구조와 코드베이스 컨텍스트를 제공.</p>
+      </div>
+      <div class="card">
+        <h4>GitLab MR & CI/CD</h4>
+        <p>구현 완료 시 자동으로 GitLab Merge Request 생성. CI 파이프라인 통과 후 스테이징/프로덕션 배포까지 자동 진행.</p>
+      </div>
+      <div class="card">
+        <h4>Slack 알림</h4>
+        <p>워크플로우 각 단계의 진행 상황과 결과를 Slack 채널로 실시간 알림. 에러 발생 시 즉시 담당자에게 멘션.</p>
+      </div>
+    </div>
+
+    <!-- 성과 -->
+    <div class="section">
+      <h3 class="section-title">성과</h3>
+      <div class="card">
+        <ul class="highlight-list">
+          <li>단순 반복 개발 태스크의 처리 시간을 대폭 단축</li>
+          <li>야간/주말에도 태스크 자동 처리로 개발 병목 해소</li>
+          <li>코드 리뷰 전 자동화된 품질 검증으로 리뷰 부담 감소</li>
+          <li>Asana → 코드 → 배포 → 알림까지 엔드투엔드 자동화 달성</li>
+          <li>팀 내 AI 기반 개발 프로세스 도입의 선례 확립</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="../index.html">← 김지환 이력서</a>
+  </footer>
+
+  <script>
+    function getTheme() { return localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+    function toggleTheme() { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    setTheme(getTheme());
+  </script>
+</body>
+</html>

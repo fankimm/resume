@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planet Wars / Wave Synth | 김지환</title>
+  <meta name="description" content="p5.js 브라우저 게임과 Web Audio API 신디사이저 프로젝트 상세">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0b; --bg-secondary: #111113; --bg-card: #16161a;
+      --bg-card-hover: #1c1c21; --bg-code: rgba(255,255,255,0.05);
+      --text-primary: #ededef; --text-secondary: #94949e; --text-tertiary: #5a5a65;
+      --accent: #f43f5e; --accent-dim: rgba(244,63,94,0.15); --accent-glow: rgba(244,63,94,0.08);
+      --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    [data-theme="light"] {
+      --bg-primary: #fafafa; --bg-secondary: #f4f4f5; --bg-card: #ffffff;
+      --bg-card-hover: #ffffff; --bg-code: rgba(0,0,0,0.04);
+      --text-primary: #18181b; --text-secondary: #52525b; --text-tertiary: #a1a1aa;
+      --accent: #e11d48; --accent-dim: rgba(225,29,72,0.08); --accent-glow: rgba(225,29,72,0.04);
+      --border: rgba(0,0,0,0.06); --border-hover: rgba(0,0,0,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    :root { --max-w: 760px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background 0.4s ease, color 0.4s ease; }
+    ::selection { background: var(--accent-dim); color: var(--accent); }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: var(--bg-primary); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+    .top-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; }
+    .theme-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .theme-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    .theme-btn svg { width: 16px; height: 16px; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 48px 24px 80px; }
+    .project-header { margin-bottom: 48px; }
+    .project-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .project-title { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+    .project-meta { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+    .project-meta span + span::before { content: '·'; margin: 0 8px; }
+    .project-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.8; max-width: 600px; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tech-stack span { background: var(--bg-code); color: var(--text-secondary); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .section { margin-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title::before { content: ''; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .card p, .card li { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .card ul { padding-left: 20px; }
+    .card ul li { margin-bottom: 4px; }
+    .screenshot-placeholder { background: var(--bg-secondary); border: 2px dashed var(--border-hover); border-radius: 12px; padding: 48px 24px; text-align: center; color: var(--text-tertiary); font-size: 13px; margin-bottom: 16px; }
+    .screenshot-placeholder svg { width: 32px; height: 32px; margin-bottom: 8px; opacity: 0.4; }
+    .highlight-list { list-style: none; padding: 0; }
+    .highlight-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .highlight-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .link-buttons { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .link-btn.primary { background: var(--accent); color: #fff; }
+    .link-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .link-btn.secondary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); }
+    .link-btn.secondary:hover { border-color: var(--border-hover); color: var(--text-primary); }
+    .link-btn svg { width: 16px; height: 16px; }
+    .sub-project { border-top: 1px solid var(--border); padding-top: 48px; margin-top: 48px; }
+    .sub-badge { display: inline-block; background: var(--bg-code); color: var(--text-tertiary); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; letter-spacing: 0.03em; }
+    footer { text-align: center; padding: 32px 24px; font-size: 12px; color: var(--text-tertiary); border-top: 1px solid var(--border); }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    @media (max-width: 640px) { .project-title { font-size: 28px; } .container { padding: 32px 16px 60px; } }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        이력서로 돌아가기
+      </a>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="project-header">
+      <div class="project-badge">Creative</div>
+      <h1 class="project-title">Planet Wars</h1>
+      <div class="project-meta">
+        <span>2020</span>
+        <span>Personal</span>
+      </div>
+      <p class="project-intro">
+        p5.js로 만든 브라우저 기반 우주 전략 게임.
+        행성 간 전쟁을 테마로 한 인터랙티브 시뮬레이션으로, 크리에이티브 코딩의 재미를 보여주는 프로젝트.
+      </p>
+      <div class="tech-stack">
+        <span>p5.js</span><span>JavaScript</span><span>Canvas</span><span>Game Logic</span>
+      </div>
+      <div class="link-buttons">
+        <a href="https://fankimm.github.io/Planet-Wars" target="_blank" rel="noopener" class="link-btn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Demo
+        </a>
+        <a href="https://github.com/fankimm/Planet-Wars" target="_blank" rel="noopener" class="link-btn secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">미리보기</h3>
+      <div class="screenshot-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <br>📸 Planet Wars 게임 플레이 스크린샷 또는 GIF
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">게임 특징</h3>
+      <div class="card">
+        <ul class="highlight-list">
+          <li>p5.js Canvas 기반의 실시간 2D 렌더링</li>
+          <li>행성 간 유닛 이동과 전투 시뮬레이션</li>
+          <li>AI 적군의 전략적 의사결정 로직</li>
+          <li>파티클 이펙트와 시각적 피드백</li>
+          <li>GitHub Pages로 배포하여 브라우저에서 바로 플레이 가능</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">구현 포인트</h3>
+      <div class="card">
+        <h4>게임 루프 & 물리</h4>
+        <p>p5.js의 draw() 루프를 활용한 60fps 게임 루프. 유닛 이동 시 행성 간 거리, 속도, 충돌 판정을 계산하는 간단한 물리 시뮬레이션.</p>
+      </div>
+      <div class="card">
+        <h4>AI 로직</h4>
+        <p>적 AI는 현재 전력 비교, 가장 약한 행성 타겟팅, 방어/공격 전환 등의 규칙 기반 의사결정으로 플레이어에게 도전감을 제공.</p>
+      </div>
+    </div>
+
+    <!-- Wave Synth 서브프로젝트 -->
+    <div class="sub-project">
+      <span class="sub-badge">BONUS PROJECT</span>
+      <h2 class="project-title" style="font-size: 28px;">Wave Synth</h2>
+      <p class="project-intro" style="margin-bottom: 20px;">
+        Web Audio API를 활용한 브라우저 기반 신디사이저.
+        음악과 코드의 접점을 보여주는 크리에이티브 코딩 프로젝트로,
+        다양한 파형(Sine, Square, Sawtooth, Triangle)을 조합해 소리를 생성.
+      </p>
+      <div class="tech-stack" style="margin-top: 0;">
+        <span>Web Audio API</span><span>JavaScript</span><span>AudioContext</span><span>Oscillator</span>
+      </div>
+
+      <div class="section" style="margin-top: 32px;">
+        <div class="card">
+          <h4>주요 기능</h4>
+          <ul class="highlight-list">
+            <li>키보드 입력으로 실시간 음 생성 (피아노 키 매핑)</li>
+            <li>파형 선택: Sine, Square, Sawtooth, Triangle</li>
+            <li>ADSR 엔벨로프 컨트롤 (Attack, Decay, Sustain, Release)</li>
+            <li>Web Audio API의 AudioContext, OscillatorNode, GainNode 활용</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="../index.html">← 김지환 이력서</a>
+  </footer>
+
+  <script>
+    function getTheme() { return localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+    function toggleTheme() { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    setTheme(getTheme());
+  </script>
+</body>
+</html>

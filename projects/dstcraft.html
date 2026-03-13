@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSTCraft | 김지환</title>
+  <meta name="description" content="Don't Starve Together 크래프팅 가이드 웹앱 프로젝트 상세">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0b; --bg-secondary: #111113; --bg-card: #16161a;
+      --bg-card-hover: #1c1c21; --bg-code: rgba(255,255,255,0.05);
+      --text-primary: #ededef; --text-secondary: #94949e; --text-tertiary: #5a5a65;
+      --accent: #f43f5e; --accent-dim: rgba(244,63,94,0.15); --accent-glow: rgba(244,63,94,0.08);
+      --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    [data-theme="light"] {
+      --bg-primary: #fafafa; --bg-secondary: #f4f4f5; --bg-card: #ffffff;
+      --bg-card-hover: #ffffff; --bg-code: rgba(0,0,0,0.04);
+      --text-primary: #18181b; --text-secondary: #52525b; --text-tertiary: #a1a1aa;
+      --accent: #e11d48; --accent-dim: rgba(225,29,72,0.08); --accent-glow: rgba(225,29,72,0.04);
+      --border: rgba(0,0,0,0.06); --border-hover: rgba(0,0,0,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    :root { --max-w: 760px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background 0.4s ease, color 0.4s ease; }
+    ::selection { background: var(--accent-dim); color: var(--accent); }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: var(--bg-primary); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+    .top-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; }
+    .theme-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .theme-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    .theme-btn svg { width: 16px; height: 16px; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 48px 24px 80px; }
+    .project-header { margin-bottom: 48px; }
+    .project-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .project-title { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+    .project-meta { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+    .project-meta span + span::before { content: '·'; margin: 0 8px; }
+    .project-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.8; max-width: 600px; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tech-stack span { background: var(--bg-code); color: var(--text-secondary); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .section { margin-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title::before { content: ''; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .card p, .card li { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .card ul { padding-left: 20px; }
+    .card ul li { margin-bottom: 4px; }
+    .screenshot-placeholder { background: var(--bg-secondary); border: 2px dashed var(--border-hover); border-radius: 12px; padding: 48px 24px; text-align: center; color: var(--text-tertiary); font-size: 13px; margin-bottom: 16px; }
+    .screenshot-placeholder svg { width: 32px; height: 32px; margin-bottom: 8px; opacity: 0.4; }
+    .highlight-list { list-style: none; padding: 0; }
+    .highlight-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .highlight-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .link-buttons { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .link-btn.primary { background: var(--accent); color: #fff; }
+    .link-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .link-btn.secondary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); }
+    .link-btn.secondary:hover { border-color: var(--border-hover); color: var(--text-primary); }
+    .link-btn svg { width: 16px; height: 16px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+    .stat-value { font-size: 24px; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+    .psr-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .psr-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .psr-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .psr-label.problem { color: var(--accent); }
+    .psr-label.solution, .psr-label.result { color: var(--text-tertiary); }
+    .psr-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+    footer { text-align: center; padding: 32px 24px; font-size: 12px; color: var(--text-tertiary); border-top: 1px solid var(--border); }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    @media (max-width: 640px) { .project-title { font-size: 28px; } .container { padding: 32px 16px 60px; } }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        이력서로 돌아가기
+      </a>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="project-header">
+      <div class="project-badge">Web App</div>
+      <h1 class="project-title">DSTCraft</h1>
+      <div class="project-meta">
+        <span>2025</span>
+        <span>Personal</span>
+      </div>
+      <p class="project-intro">
+        Don't Starve Together의 크래프팅 레시피, 요리 레시피, 보스 정보, 캐릭터 가이드를 제공하는 종합 게임 가이드 웹앱.
+        13개 언어 지원, PWA 설치 가능, SEO 최적화로 검색 유입 확보.
+      </p>
+      <div class="tech-stack">
+        <span>Next.js 15</span><span>TypeScript</span><span>Tailwind CSS v4</span>
+        <span>shadcn/ui</span><span>Static Export</span><span>PWA</span>
+      </div>
+      <div class="link-buttons">
+        <a href="https://dstcraft.com" target="_blank" rel="noopener" class="link-btn primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          dstcraft.com
+        </a>
+        <a href="https://github.com/fankimm/dst-craft" target="_blank" rel="noopener" class="link-btn secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">미리보기</h3>
+      <div class="screenshot-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <br>📸 DSTCraft 메인 페이지 스크린샷
+      </div>
+      <div class="screenshot-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <br>📸 Crock Pot 시뮬레이터 스크린샷
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">프로젝트 규모</h3>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">13</div>
+          <div class="stat-label">지원 언어</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100+</div>
+          <div class="stat-label">아이템</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">21+</div>
+          <div class="stat-label">캐릭터 가이드</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">30+</div>
+          <div class="stat-label">보스 정보</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">주요 기능</h3>
+      <div class="card">
+        <h4>크래프팅 레시피 검색</h4>
+        <p>모든 제작 레시피, 재료, 제작소를 검색하고 탐색. 캐릭터별 전용 아이템 필터링, 카테고리별 분류.</p>
+      </div>
+      <div class="card">
+        <h4>Crock Pot 시뮬레이터</h4>
+        <p>최대 4개 재료를 조합하여 요리 결과를 미리 확인. 실제 게임 로직을 기반으로 한 정확한 결과 예측.</p>
+      </div>
+      <div class="card">
+        <h4>보스 데이터베이스</h4>
+        <p>시즌별, 레이드, 해양, 던전, 이벤트 보스의 체력, 공격 패턴, 드랍 아이템 정보 제공.</p>
+      </div>
+      <div class="card">
+        <h4>다국어 지원 (i18n)</h4>
+        <p>영어, 한국어, 일본어, 중국어, 프랑스어, 독일어, 스페인어, 러시아어 등 13개 언어 지원. 게임 내 아이템명도 현지화.</p>
+      </div>
+      <div class="card">
+        <h4>PWA</h4>
+        <p>Service Worker 기반의 오프라인 지원. 모바일/데스크톱에서 앱처럼 설치 가능.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">기술적 챌린지</h3>
+      <div class="psr-grid">
+        <div class="psr-card">
+          <p class="psr-label problem">Problem</p>
+          <p>게임 데이터가 공식 API 없이 Lua 소스코드에만 존재. 수백 개의 아이템/레시피 데이터를 구조화해야 함.</p>
+        </div>
+        <div class="psr-card">
+          <p class="psr-label solution">Solution</p>
+          <p>게임 소스의 Lua 파일을 분석하여 데이터 구조를 파악하고, TypeScript 타입 시스템으로 정적 데이터셋 구축. 카테고리, 태그, 관계 데이터를 체계적으로 정규화.</p>
+        </div>
+        <div class="psr-card">
+          <p class="psr-label result">Result</p>
+          <p>100개 이상의 아이템과 레시피를 타입 안전하게 관리. 게임 업데이트 시 데이터 추가가 용이한 구조.</p>
+        </div>
+      </div>
+
+      <div class="psr-grid" style="margin-top: 16px;">
+        <div class="psr-card">
+          <p class="psr-label problem">Problem</p>
+          <p>SEO를 통한 검색 유입 확보 필요. 하지만 SPA 구조는 크롤러 친화적이지 않음.</p>
+        </div>
+        <div class="psr-card">
+          <p class="psr-label solution">Solution</p>
+          <p>Next.js 15의 Static Export를 활용한 완전 정적 사이트 생성. 각 아이템/레시피별 개별 페이지와 메타데이터 자동 생성으로 크롤러 최적화.</p>
+        </div>
+        <div class="psr-card">
+          <p class="psr-label result">Result</p>
+          <p>게임 관련 키워드로 검색 유입 확보. Vercel 호스팅으로 빠른 로딩 속도 유지.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="../index.html">← 김지환 이력서</a>
+  </footer>
+
+  <script>
+    function getTheme() { return localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+    function toggleTheme() { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    setTheme(getTheme());
+  </script>
+</body>
+</html>

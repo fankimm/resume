@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MH Save Editor | 김지환</title>
+  <meta name="description" content="몬스터헌터 세이브 에디터 역공학 프로젝트 상세">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0b; --bg-secondary: #111113; --bg-card: #16161a;
+      --bg-card-hover: #1c1c21; --bg-code: rgba(255,255,255,0.05);
+      --text-primary: #ededef; --text-secondary: #94949e; --text-tertiary: #5a5a65;
+      --accent: #f43f5e; --accent-dim: rgba(244,63,94,0.15); --accent-glow: rgba(244,63,94,0.08);
+      --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    [data-theme="light"] {
+      --bg-primary: #fafafa; --bg-secondary: #f4f4f5; --bg-card: #ffffff;
+      --bg-card-hover: #ffffff; --bg-code: rgba(0,0,0,0.04);
+      --text-primary: #18181b; --text-secondary: #52525b; --text-tertiary: #a1a1aa;
+      --accent: #e11d48; --accent-dim: rgba(225,29,72,0.08); --accent-glow: rgba(225,29,72,0.04);
+      --border: rgba(0,0,0,0.06); --border-hover: rgba(0,0,0,0.12);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    :root { --max-w: 760px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background 0.4s ease, color 0.4s ease; }
+    ::selection { background: var(--accent-dim); color: var(--accent); }
+    .top-bar { position: sticky; top: 0; z-index: 100; background: var(--bg-primary); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+    .top-bar-inner { max-width: var(--max-w); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .back-link { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 18px; height: 18px; }
+    .theme-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .theme-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    .theme-btn svg { width: 16px; height: 16px; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 48px 24px 80px; }
+    .project-header { margin-bottom: 48px; }
+    .project-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-dim); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .project-title { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+    .project-meta { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+    .project-meta span + span::before { content: '·'; margin: 0 8px; }
+    .project-intro { font-size: 16px; color: var(--text-secondary); line-height: 1.8; max-width: 600px; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tech-stack span { background: var(--bg-code); color: var(--text-secondary); font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); }
+    .section { margin-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .section-title::before { content: ''; width: 3px; height: 20px; border-radius: 2px; background: var(--accent); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .card p, .card li { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .card ul { padding-left: 20px; }
+    .card ul li { margin-bottom: 4px; }
+    .highlight-list { list-style: none; padding: 0; }
+    .highlight-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .highlight-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .code-block { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-secondary); line-height: 1.8; overflow-x: auto; margin: 16px 0; }
+    .code-comment { color: var(--text-tertiary); }
+    footer { text-align: center; padding: 32px 24px; font-size: 12px; color: var(--text-tertiary); border-top: 1px solid var(--border); }
+    footer a { color: var(--text-secondary); text-decoration: none; }
+    @media (max-width: 640px) { .project-title { font-size: 28px; } .container { padding: 32px 16px 60px; } }
+  </style>
+</head>
+<body>
+  <nav class="top-bar">
+    <div class="top-bar-inner">
+      <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        이력서로 돌아가기
+      </a>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="project-header">
+      <div class="project-badge">Reverse Eng.</div>
+      <h1 class="project-title">MH Save Editor</h1>
+      <div class="project-meta">
+        <span>2017</span>
+        <span>Personal</span>
+      </div>
+      <p class="project-intro">
+        몬스터헌터 게임의 세이브 파일을 헥스 에디터로 분석하여 바이너리 데이터 구조를 역공학.
+        메모리 오프셋 분석을 통해 특정 값을 수정할 수 있는 세이브 에디터를 C/C++로 구현.
+      </p>
+      <div class="tech-stack">
+        <span>C/C++</span><span>Hex Analysis</span><span>Reverse Engineering</span>
+        <span>Binary Parsing</span><span>Memory Offset</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">프로젝트 배경</h3>
+      <div class="card">
+        <p>
+          게임 세이브 파일의 내부 구조에 대한 호기심에서 시작. 공식 문서나 SDK 없이
+          순수하게 바이너리 파일을 분석하여 데이터 구조를 파악하고, 특정 값을 수정하는 도구를 만들었습니다.
+          프로그래밍 초기에 진행한 프로젝트로, 저수준 데이터 처리와 바이너리 분석의 기초를 다지는 계기가 되었습니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">분석 과정</h3>
+      <div class="card">
+        <h4>1. 바이너리 분석</h4>
+        <p>HxD 등의 헥스 에디터로 세이브 파일을 열어 데이터 패턴을 관찰. 게임 내 값을 변경한 후 세이브 파일의 diff를 비교하여 오프셋 위치 특정.</p>
+      </div>
+      <div class="card">
+        <h4>2. 데이터 구조 매핑</h4>
+        <p>반복적인 비교 분석을 통해 캐릭터 스탯, 아이템, 장비, 재화 등의 오프셋 테이블 구축.</p>
+        <div class="code-block">
+<span class="code-comment">// 세이브 파일 오프셋 구조 (예시)</span>
+Offset 0x0000 ~ 0x000F : Header / Checksum
+Offset 0x0010 ~ 0x001F : Character Name (UTF-8)
+Offset 0x0048 ~ 0x004B : Zenny (uint32, LE)
+Offset 0x0050 ~ 0x0053 : HR Points (uint32, LE)
+Offset 0x0100 ~ 0x03FF : Equipment Slots
+        </div>
+      </div>
+      <div class="card">
+        <h4>3. 에디터 구현</h4>
+        <p>C/C++로 바이너리 파일 I/O를 구현하고, 특정 오프셋의 값을 읽고 쓰는 CLI 도구 개발. 체크섬 검증 우회를 위한 재계산 로직 포함.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">배운 것</h3>
+      <div class="card">
+        <ul class="highlight-list">
+          <li>바이너리 파일 구조와 엔디안(Little/Big Endian)에 대한 이해</li>
+          <li>메모리 오프셋 기반의 저수준 데이터 접근</li>
+          <li>C/C++의 파일 I/O와 포인터 조작</li>
+          <li>체크섬/해시 검증 메커니즘의 이해</li>
+          <li>문서 없이 바이너리를 분석하는 리버스 엔지니어링 방법론</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="../index.html">← 김지환 이력서</a>
+  </footer>
+
+  <script>
+    function getTheme() { return localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }
+    function setTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }
+    function toggleTheme() { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    setTheme(getTheme());
+  </script>
+</body>
+</html>
