@@ -1392,6 +1392,10 @@
       sections.forEach(s => {
         if (scrollY >= s.offsetTop - 200) current = s.id;
       });
+      // 페이지 최하단 도달 시 마지막 섹션 활성화
+      if ((window.innerHeight + Math.ceil(scrollY)) >= document.documentElement.scrollHeight) {
+        current = sections[sections.length - 1].id;
+      }
 
       let activeLink = null;
       pillLinks.forEach(l => {
