@@ -203,7 +203,7 @@
       border: 1px solid rgba(34, 197, 94, 0.2);
       border-radius: 999px;
       margin-bottom: 28px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.14s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
     }
 
     .hero-status .pulse {
@@ -221,14 +221,14 @@
       font-size: clamp(48px, 8vw, 80px);
       font-weight: 900; letter-spacing: -0.05em; line-height: 1.05;
       margin-bottom: 16px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.17s forwards;
     }
 
     .hero-role {
       font-size: clamp(18px, 2.5vw, 22px);
       font-weight: 400; color: var(--text-secondary);
       margin-bottom: 20px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
     }
 
     .hero-role code {
@@ -242,12 +242,12 @@
     .hero-desc {
       font-size: 15px; color: var(--text-secondary);
       max-width: 520px; line-height: 1.9;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.32s forwards;
     }
 
     .hero-stats {
       display: flex; gap: 32px; margin-top: 32px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.56s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.39s forwards;
     }
 
     .hero-stat-value {
@@ -262,7 +262,7 @@
 
     .hero-actions {
       display: flex; align-items: center; gap: 12px; margin-top: 36px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.67s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.47s forwards;
     }
 
     .btn-primary {
@@ -302,7 +302,7 @@
     .hero-scroll {
       position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      opacity: 0; animation: fadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.77s forwards;
+      opacity: 0; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.54s forwards;
     }
 
     .hero-scroll span {
@@ -704,14 +704,12 @@
       padding: 24px;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
       border-radius: 12px;
       transition: all 0.25s ease;
     }
 
     .edu-card:hover {
       border-color: var(--border-hover);
-      border-left-color: var(--accent);
       box-shadow: var(--shadow-card-hover);
       transform: translateY(-2px);
     }
@@ -1437,7 +1435,7 @@
 
     const heroObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        setTimeout(animateCounters, 630);
+        setTimeout(animateCounters, 440);
         heroObserver.disconnect();
       }
     }, { threshold: 0.3 });
