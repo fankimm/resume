@@ -934,8 +934,9 @@
 
       .projects-grid { grid-template-columns: 1fr; }
       .project-card { padding: 22px; }
-      .project-screenshots { grid-template-columns: 1fr; }
-      .mockup-showcase img { height: 240px; border-radius: 12px; }
+      .project-screenshots { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+      .mockup-showcase { flex-direction: column; align-items: center; gap: 10px; }
+      .mockup-showcase img { height: auto; width: 100%; max-width: 280px; border-radius: 12px; }
       .project-card-top { flex-direction: column; align-items: flex-start; gap: 6px; }
 
       .edu-grid { grid-template-columns: 1fr; }
@@ -975,7 +976,8 @@
       .project-name { font-size: 16px; }
       .project-desc { font-size: 12.5px; }
       .project-card { padding: 18px; }
-      .mockup-showcase img { height: 200px; }
+      .mockup-showcase img { max-width: 240px; }
+      .project-screenshots { max-width: 280px; }
 
       .about-highlight { padding: 16px; }
       .about-highlight-text h4 { font-size: 13px; }
