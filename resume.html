@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김지환 | 이력서</title>
+  <meta name="description" content="프론트엔드 개발자 김지환 이력서">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-card: #16161a;
+      --bg-code: rgba(255, 255, 255, 0.05);
+      --text-primary: #ededef;
+      --text-secondary: #94949e;
+      --text-tertiary: #5a5a65;
+      --accent: #f43f5e;
+      --accent-dim: rgba(244, 63, 94, 0.15);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(255, 255, 255, 0.12);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #fafafa;
+      --bg-secondary: #f4f4f5;
+      --bg-card: #ffffff;
+      --bg-code: rgba(0, 0, 0, 0.04);
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-tertiary: #a1a1aa;
+      --accent: #e11d48;
+      --accent-dim: rgba(225, 29, 72, 0.08);
+      --border: rgba(0, 0, 0, 0.06);
+      --border-hover: rgba(0, 0, 0, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background 0.4s ease, color 0.4s ease;
+      word-break: keep-all;
+    }
+
+    ::selection { background: var(--accent-dim); color: var(--accent); }
+
+    /* ── Theme toggle ── */
+    .theme-float {
+      position: fixed; top: 20px; right: 20px; z-index: 1001;
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg-secondary);
+      backdrop-filter: blur(16px);
+      cursor: pointer;
+      color: var(--text-tertiary);
+      transition: all 0.2s;
+    }
+    .theme-float:hover { color: var(--text-primary); border-color: var(--border-hover); }
+    .theme-float svg { width: 16px; height: 16px; }
+    .icon-sun { display: none; }
+    .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun { display: block; }
+    [data-theme="light"] .icon-moon { display: none; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── Header ── */
+    .header { margin-bottom: 40px; }
+
+    .header-name {
+      font-size: 32px; font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .header-role {
+      font-size: 16px; color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .header-contacts {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;
+      font-size: 13px; color: var(--text-tertiary);
+    }
+
+    .header-contacts a {
+      color: var(--text-secondary); text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-contacts a:hover { color: var(--accent); }
+
+    .header-contacts .sep { color: var(--border-hover); }
+
+    .header-contacts .portfolio-link {
+      color: var(--accent); font-weight: 600;
+    }
+
+    /* ── Sections ── */
+    .section {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 20px; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.2;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .section-title::before {
+      content: ''; width: 3px; height: 18px;
+      border-radius: 2px; background: var(--accent);
+    }
+
+    /* ── About ── */
+    .about-text {
+      font-size: 14px; line-height: 1.9;
+      color: var(--text-secondary);
+    }
+
+    .about-text strong { color: var(--text-primary); font-weight: 600; }
+
+    /* ── Experience ── */
+    .exp-block { margin-bottom: 36px; }
+    .exp-block:last-child { margin-bottom: 0; }
+
+    .exp-company-row {
+      display: flex; align-items: baseline; gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .exp-company {
+      font-size: 18px; font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .exp-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: var(--text-tertiary); font-weight: 500;
+    }
+
+    .exp-role {
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .exp-project { margin-bottom: 20px; }
+    .exp-project:last-child { margin-bottom: 0; }
+
+    .exp-project-name {
+      font-size: 14px; font-weight: 700;
+      letter-spacing: -0.02em;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .exp-project-name .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 1px 6px; border-radius: 3px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .exp-items {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 4px;
+      padding-left: 15px;
+    }
+
+    .exp-items li {
+      font-size: 13px; color: var(--text-secondary);
+      padding-left: 14px; position: relative; line-height: 1.7;
+    }
+
+    .exp-items li::before {
+      content: '';
+      position: absolute; left: 0; top: 11px;
+      width: 6px; height: 1.5px;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    .metric {
+      color: var(--text-primary); font-weight: 600;
+      background: var(--accent-dim);
+      padding: 1px 6px; border-radius: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Skills ── */
+    .skills-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .skill-row {
+      display: flex; align-items: baseline; gap: 12px;
+    }
+
+    .skill-label {
+      font-size: 12px; font-weight: 700;
+      color: var(--text-tertiary);
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+
+    .skill-tag {
+      font-size: 12px; font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-code);
+      padding: 3px 10px; border-radius: 5px;
+      border: 1px solid var(--border);
+    }
+
+    .skill-tag.primary {
+      color: var(--accent);
+      border-color: rgba(244, 63, 94, 0.25);
+      background: var(--accent-dim);
+      font-weight: 600;
+    }
+
+    /* ── Education ── */
+    .edu-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .edu-item {
+      display: flex; align-items: baseline; gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .edu-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: var(--accent);
+      min-width: 90px; flex-shrink: 0;
+    }
+
+    .edu-name {
+      font-size: 14px; font-weight: 600;
+    }
+
+    .edu-detail {
+      font-size: 13px; color: var(--text-secondary);
+    }
+
+    .edu-detail::before {
+      content: '·'; margin: 0 6px;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Music (secondary) ── */
+    .exp-music {
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      font-size: 13px; color: var(--text-tertiary);
+      line-height: 1.7;
+    }
+
+    .exp-music strong { color: var(--text-secondary); font-weight: 600; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .container { padding: 32px 16px 60px; }
+      .header-name { font-size: 26px; }
+      .header-role { font-size: 14px; }
+      .header-contacts { font-size: 12px; }
+      .section-title { font-size: 18px; }
+      .exp-company { font-size: 16px; }
+      .exp-company-row { flex-direction: column; gap: 2px; }
+      .skill-row { flex-direction: column; gap: 4px; }
+      .skill-label { min-width: auto; }
+      .edu-item { flex-direction: column; gap: 2px; }
+      .edu-detail::before { display: none; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      @page { margin: 15mm 18mm; }
+
+      * { transition: none !important; }
+
+      body {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .theme-float { display: none !important; }
+
+      .container { max-width: 100%; padding: 0; }
+
+      .header { margin-bottom: 24px; }
+      .header-name { font-size: 24px; color: #000 !important; }
+      .header-role { font-size: 13px; color: #444 !important; }
+      .header-contacts { font-size: 11px; color: #666 !important; }
+      .header-contacts a { color: #333 !important; }
+      .header-contacts .portfolio-link::after {
+        content: " (fankimm.github.io/resume)";
+        font-weight: 400; color: #888;
+      }
+
+      .section { margin-top: 20px; padding-top: 16px; border-color: #ddd !important; }
+      .section-title { font-size: 15px; margin-bottom: 12px; }
+      .section-title::before { background: #e11d48 !important; }
+
+      .about-text { font-size: 12px; color: #444 !important; }
+      .about-text strong { color: #1a1a1a !important; }
+
+      .exp-block { margin-bottom: 20px; }
+      .exp-company { font-size: 15px; color: #000 !important; }
+      .exp-period { font-size: 10px; color: #888 !important; }
+      .exp-role { font-size: 11px; color: #666 !important; margin-bottom: 12px; }
+      .exp-project { margin-bottom: 12px; break-inside: avoid; }
+      .exp-project-name { font-size: 12px; border-color: #e11d48 !important; }
+      .exp-project-name .badge { background: #fce7f3 !important; color: #e11d48 !important; }
+      .exp-items li { font-size: 11px; color: #444 !important; }
+      .exp-items li::before { background: #e11d48 !important; }
+      .metric { background: #fce7f3 !important; color: #1a1a1a !important; }
+
+      .exp-music { background: #f5f5f5 !important; font-size: 11px; }
+      .exp-music strong { color: #333 !important; }
+
+      .skill-tag { font-size: 10px; border-color: #ddd !important; background: #f5f5f5 !important; color: #333 !important; }
+      .skill-tag.primary { background: #fce7f3 !important; color: #e11d48 !important; border-color: #fecdd3 !important; }
+      .skill-label { font-size: 10px; color: #888 !important; }
+
+      .edu-period { font-size: 10px; color: #e11d48 !important; }
+      .edu-name { font-size: 12px; color: #1a1a1a !important; }
+      .edu-detail { font-size: 11px; color: #666 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="theme-float" onclick="toggleTheme()" aria-label="테마 변경">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <h1 class="header-name">김지환</h1>
+      <p class="header-role">Frontend Developer &mdash; Enterprise WMS</p>
+      <div class="header-contacts">
+        <a href="mailto:fankim@icloud.com">fankim@icloud.com</a>
+        <span class="sep">|</span>
+        <a href="tel:010-9731-2406">010-9731-2406</a>
+        <span class="sep">|</span>
+        <a href="https://github.com/fankimm" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">|</span>
+        <a href="./index.html" class="portfolio-link">Portfolio</a>
+      </div>
+    </header>
+
+    <!-- About -->
+    <section class="section" style="margin-top: 0; padding-top: 0; border: none;">
+      <h2 class="section-title">About</h2>
+      <p class="about-text">
+        <strong>퍼플아이오(코오롱FnC 자회사)</strong>에서 Next.js 기반 물류 관리 시스템(WMS)의 프론트엔드를 담당하고 있습니다.
+        입고부터 출고, 재고, 배송확정, 마감까지 물류 전 프로세스를 50개 이상의 관리 화면으로 설계&middot;운영하며,
+        PDA&middot;바코드&middot;라벨 프린터 등 물류 현장 하드웨어와 웹 시스템을 연결하는 개발을 하고 있습니다.
+        운영팀의 실제 불편을 파악해 성능 병목을 해결하고, 보안 시스템을 단독 개발한 경험이 있습니다.
+      </p>
+    </section>
+
+    <!-- Experience -->
+    <section class="section">
+      <h2 class="section-title">Experience</h2>
+
+      <div class="exp-block">
+        <div class="exp-company-row">
+          <span class="exp-company">퍼플아이오</span>
+          <span class="exp-period">2021.08 ~ 현재 (5년차)</span>
+        </div>
+        <p class="exp-role">코오롱FnC 자회사 &middot; IT팀 / WMS 프론트엔드 개발자 &middot; 프론트 3명 &middot; 백엔드 6명 &middot; 물류 운영팀 협업</p>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">WMS 물류 관리 시스템 <span class="badge">Core</span></h4>
+          <ul class="exp-items">
+            <li>운영팀 요청 기반으로 입고/출고/재고/배송확정/마감 등 물류 전 프로세스를 <span class="metric">50개+ 관리 화면</span>으로 설계 및 운영</li>
+            <li>3PL 사업 확장에 대응해 모듈을 신규 구축 &mdash; 상품/시리얼 등록부터 마감까지 전체 플로우를 처음부터 개발</li>
+            <li>화주사 추가 요청마다 반복되는 분기 코드 &rarr; 화주별 API 라우팅과 공통 컴포넌트 추상화로 <span class="metric">4개 화주사</span> 확장을 저비용으로 해결</li>
+            <li>현장 운영팀과 협업하여 RFID/바코드/다중바코드 스캔 워크플로우 설계 및 QA 테스트 매트릭스 작성</li>
+            <li>배송확정 페이지 5만건+ 조회 시 57초 소요 &rarr; 프론트 중복 호출 제거, 페이지네이션 전환, 가상 스크롤 적용 후 백엔드 API 재설계와 함께 <span class="metric">5초로 단축</span></li>
+            <li>동탄 물류센터 현장 파견 &mdash; 프린터/바코드 스캐너 하드웨어 연동 문제를 현장에서 직접 트러블슈팅</li>
+          </ul>
+        </div>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">PILS (개인정보 내부관리 시스템) <span class="badge">New</span></h4>
+          <ul class="exp-items">
+            <li>개인정보 컴플라이언스 요건 충족을 위해 NextAuth 기반 인증 체계 설계 &mdash; JWT 동기화, SMS 2차 인증, SSE 기반 중복 로그인 감지</li>
+            <li>감사팀 요청으로 사용자 행위 감사, 과다 접근 모니터링, 소명 게시판, 월간 컴플라이언스 리포트를 단독 개발</li>
+            <li>보안 시스템 특성상 배포 전 자동 검증이 필수 &rarr; Playwright E2E 테스트 인프라를 구축하여 핵심 플로우 자동 검증</li>
+          </ul>
+        </div>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">프론트엔드 인프라 현대화 <span class="badge">DX</span></h4>
+          <ul class="exp-items">
+            <li>레거시 UI 일관성 부재 &rarr; Purple Admin UI 프레임워크 통합 및 전체 소스 마이그레이션으로 디자인 시스템 통일</li>
+            <li>번들 사이즈 및 유지보수 개선을 위해 Moment.js &rarr; Day.js 전환, 토큰 자동 갱신 로직 추가, Next.js 버전 업그레이드</li>
+            <li>현장 PDA 사용성 불만 &rarr; 모바일 앱 전면 재구성, 피킹/패킹/재고이동 등 <span class="metric">8개 화면</span> 신규 개발 및 안드로이드 네이티브 연동</li>
+          </ul>
+        </div>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">빠른배송 / Global OMS</h4>
+          <ul class="exp-items">
+            <li>빠른배송 론칭 요구에 대응하여 딜리박스/CJ대한통운 택배사 연동, 5인치 감열 라벨 출력 및 택배사별 송장 레이아웃 분기 구현</li>
+            <li>해외 배송 확장을 위해 DHL 국제 배송 API 연동, 자동 배송확정, base64 &rarr; PDF 송장 변환 파이프라인 구축</li>
+          </ul>
+        </div>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">보안 및 권한 시스템</h4>
+          <ul class="exp-items">
+            <li>보안 감사 지적 대응으로 RBAC 시스템 설계(메뉴-역할-사용자 계층), LDAP 인증 연동, OWASP 기반 웹 취약점 수정</li>
+            <li>개인정보 유출 방지를 위해 엑셀 다운로드 암호화 + 사유 감사 추적 구현, GitLab CI/CD 빌드/배포 자동화</li>
+          </ul>
+        </div>
+
+        <div class="exp-project">
+          <h4 class="exp-project-name">AI 기반 개발 워크플로우 구축 <span class="badge">AI</span></h4>
+          <ul class="exp-items">
+            <li>반복적인 태스크 분석 → MR 생성 → 배포 알림 사이클의 수작업 부담 &rarr; Claude Code + MCP 기반 자동화 워크플로우 도입</li>
+            <li>Asana 태스크 자동 폴링 → Claude Code 코드 분석/구현 → GitLab MR 생성 → Slack 알림까지 엔드투엔드 자동화</li>
+            <li>Google Sheets 테스트 시트 자동 생성으로 QA 핸드오프 프로세스 개선</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-music">
+        <strong>음악 활동</strong> (2013 ~ 2021) &mdash;
+        서울예술대학교 실용음악과 트럼펫 전공.
+        공군 작전사령부 군악대 복무 (2010.11 ~ 2012.11).
+        국내 주요 클럽 및 락 페스티벌 공연, 음반 녹음 세션 및 방송 활동.
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills-list">
+        <div class="skill-row">
+          <span class="skill-label">Frontend</span>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Next.js</span>
+            <span class="skill-tag primary">React</span>
+            <span class="skill-tag primary">TypeScript</span>
+            <span class="skill-tag">Ant Design</span>
+            <span class="skill-tag">TailwindCSS</span>
+            <span class="skill-tag">SWR</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Auth & State</span>
+          <div class="skill-tags">
+            <span class="skill-tag primary">NextAuth.js</span>
+            <span class="skill-tag">React Hooks</span>
+            <span class="skill-tag">SSE</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Testing</span>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Playwright</span>
+            <span class="skill-tag">E2E</span>
+            <span class="skill-tag">ESLint</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">DevOps</span>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">GitLab CI/CD</span>
+            <span class="skill-tag">Docker</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">AI</span>
+          <div class="skill-tags">
+            <span class="skill-tag primary">Claude Code</span>
+            <span class="skill-tag primary">MCP</span>
+            <span class="skill-tag">Asana API</span>
+            <span class="skill-tag">Slack API</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-list">
+        <div class="edu-item">
+          <span class="edu-period">2013 ~ 2017</span>
+          <span class="edu-name">서울예술대학교</span>
+          <span class="edu-detail">실용음악과 트럼펫 전공</span>
+        </div>
+        <div class="edu-item">
+          <span class="edu-period">2005 ~ 2006</span>
+          <span class="edu-name">단국대학교</span>
+          <span class="edu-detail">컴퓨터과학과 (중퇴)</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function getTheme() {
+      return localStorage.getItem('theme') || 'dark';
+    }
+    function setTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+    }
+    function toggleTheme() {
+      setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    }
+    setTheme(getTheme());
+  </script>
+</body>
+</html>
