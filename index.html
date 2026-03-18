@@ -662,11 +662,14 @@
     .project-screenshots:has(.project-screenshot:only-child) {
       grid-template-columns: 1fr;
       max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     /* ── Phone Mockup Showcase ── */
     .mockup-showcase {
       display: flex;
+      justify-content: center;
       gap: 12px;
       margin-bottom: 20px;
       padding: 24px 0;
@@ -846,8 +849,9 @@
     #contact { min-height: 50vh; display: flex; align-items: center; padding-bottom: 120px; }
 
     .contact-content {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      gap: 48px;
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: 32px;
+      width: 100%;
     }
 
     .contact-text {
@@ -855,7 +859,7 @@
       max-width: 400px; margin-bottom: 32px;
     }
 
-    .contact-items { display: flex; flex-direction: column; gap: 16px; }
+    .contact-items { display: flex; flex-direction: column; gap: 16px; width: 100%; }
 
     .contact-item {
       display: flex; align-items: center; gap: 16px;
@@ -1450,39 +1454,123 @@
           <div class="project-tech">
             <span>C/C++</span><span>Hex Analysis</span><span>Reverse Engineering</span><span>Binary Parsing</span>
           </div>
+          <div class="project-links">
+            <a href="https://youtu.be/Vh2NJrEVAaE" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path fill="var(--bg-card)" d="M9.545 15.568V8.432L15.818 12z"/></svg>
+              Demo (2017)
+            </a>
+            <a href="https://github.com/fankimm/resume/tree/main/projects/mhxx-editor" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              Source (복원)
+            </a>
+          </div>
         </div>
 
         <div class="project-card">
           <div class="project-card-top">
-            <h3 class="project-name">Planet Wars / Wave Synth</h3>
-            <span class="project-type">Creative</span>
+            <h3 class="project-name">Planet Wars</h3>
+            <span class="project-type">Game</span>
           </div>
           <p class="project-sub">2020 &middot; Personal</p>
           <p class="project-desc">
-            p5.js 브라우저 기반 우주 전략 게임과 Web Audio API 신디사이저.
-            음악과 코드의 접점을 보여주는 크리에이티브 코딩 프로젝트.
+            p5.js로 만든 브라우저 기반 서바이벌 게임.
+            마우스로 플레이어를 조작해 적 행성을 피하면서 아이템을 수집하고,
+            Google Sheets 연동 리더보드로 랭킹을 경쟁한다.
           </p>
-          <div class="project-screenshots">
-            <div class="project-screenshot">images/planet-wars-1.png</div>
-            <div class="project-screenshot">images/planet-wars-2.png</div>
+          <div class="project-highlights">
+            <h4>플레이 방법</h4>
+            <ul>
+              <li>마우스로 플레이어 이동, 아이템 수집 시 점수 획득</li>
+              <li>적 행성이 AI로 추격 &mdash; 점수가 오를수록 적이 더 커지고 빨라짐</li>
+              <li><code>1</code> 키로 파워업 사용, 충돌하면 게임 오버</li>
+            </ul>
           </div>
-          <!-- Planet Wars 스크린샷: 직접 캡쳐 후 images/planet-wars-1.png, planet-wars-2.png로 저장 -->
           <div class="project-highlights">
             <h4>주요 작업</h4>
             <ul>
-              <li>행성 간 유닛 이동, 전투 시뮬레이션, AI 적군 전략 의사결정 로직</li>
-              <li>Web Audio API로 키보드 입력 실시간 음 생성, ADSR 엔벨로프 컨트롤</li>
+              <li>p5.js Canvas 기반 60fps 게임 루프, 충돌 판정, 스프라이트 애니메이션</li>
+              <li>적 AI의 추격/성장 로직 구현</li>
+              <li>Google Apps Script로 리더보드 백엔드 연동</li>
             </ul>
           </div>
           <div class="project-tech">
-            <span>p5.js</span><span>Web Audio API</span><span>JavaScript</span><span>Canvas</span>
+            <span>p5.js</span><span>JavaScript</span><span>Canvas</span><span>Google Apps Script</span>
           </div>
           <div class="project-links">
             <a href="https://fankimm.github.io/Planet-Wars" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Live Demo
+              Play
             </a>
             <a href="https://github.com/fankimm/Planet-Wars" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-top">
+            <h3 class="project-name">순이 우주로</h3>
+            <span class="project-type">Music Video</span>
+          </div>
+          <p class="project-sub">2020 &middot; Personal</p>
+          <p class="project-desc">
+            인디밴드 크라잉넛의 '크라잉넛 챌린지'에 제출한 8bit 뮤직비디오.
+            원곡을 Nintendo Gameboy의 LSDJ로 8bit 편곡하고, p5.js로 게임 스타일 뮤직비디오를 프로그래밍했다.
+          </p>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>원곡을 Nintendo Gameboy + LSDJ로 8bit 편곡</li>
+              <li>프레임 카운트 기반 음악-비주얼 싱크, 모든 연출을 코드로 구현</li>
+              <li>스프라이트 애니메이션, 패럴랙스 배경, 다이얼로그 연출</li>
+            </ul>
+          </div>
+          <div class="project-tech">
+            <span>p5.js</span><span>LSDJ</span><span>JavaScript</span><span>Sprite Animation</span>
+          </div>
+          <div class="project-links">
+            <a href="https://www.youtube.com/watch?v=3dgRlS-WRMU" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><path fill="var(--bg-card)" d="M9.545 15.568V8.432L15.818 12z"/></svg>
+              YouTube
+            </a>
+            <a href="https://github.com/fankimm/space" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-card-top">
+            <h3 class="project-name">Wave Synth</h3>
+            <span class="project-type">Creative</span>
+          </div>
+          <p class="project-sub">2018 &middot; Personal</p>
+          <p class="project-desc">
+            p5.js + Web Audio API로 만든 브라우저 기반 신디사이저.
+            음악 전공자의 시선으로 코드와 소리의 접점을 탐구한 크리에이티브 코딩 프로젝트.
+          </p>
+          <div class="project-highlights">
+            <h4>플레이 방법</h4>
+            <ul>
+              <li><code>Space</code>로 재생 토글, <code>&larr;</code> <code>&rarr;</code> 화살표 키로 음 이동 (펜타토닉 스케일)</li>
+              <li><code>1</code>~<code>4</code> 키로 각 오실레이터(Sine/Saw/Square/Triangle) 볼륨 조절</li>
+              <li>마우스 X축으로 음 선택, Y축으로 옥타브 조절</li>
+            </ul>
+          </div>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>4개 오실레이터(Sine, Sawtooth, Square, Triangle) 동시 합성</li>
+              <li>FFT 기반 실시간 파형 시각화</li>
+            </ul>
+          </div>
+          <div class="project-tech">
+            <span>p5.js</span><span>Web Audio API</span><span>JavaScript</span><span>FFT</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/fankimm/waveSynth" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
               GitHub
             </a>
