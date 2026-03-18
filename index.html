@@ -620,24 +620,143 @@
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
 
     .project-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 24px;
+      padding: 28px;
       display: flex; flex-direction: column;
       transition: all 0.25s ease;
-      cursor: pointer;
     }
 
     .project-card:hover {
       border-color: var(--border-hover);
-      box-shadow: var(--shadow-card-hover);
-      transform: translateY(-2px);
+    }
+
+    .project-screenshots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .project-screenshot {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-tertiary);
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .project-screenshot img {
+      width: 100%; height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .project-screenshots:has(.project-screenshot:only-child) {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+    }
+
+    /* ── Phone Mockup Showcase ── */
+    .mockup-showcase {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 24px 0;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .mockup-showcase::-webkit-scrollbar { display: none; }
+
+    .mockup-showcase img {
+      height: 320px;
+      width: auto;
+      border-radius: 16px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      transition: transform 0.2s ease;
+    }
+
+    .mockup-showcase img:hover {
+      transform: scale(1.02);
+    }
+
+    .mockup-group-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .mockup-showcase img, .project-screenshot img { cursor: zoom-in; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.active { opacity: 1; pointer-events: auto; }
+
+    .lightbox img {
+      max-height: 90vh; max-width: 90vw;
+      border-radius: 16px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.5);
+      transform: scale(0.92);
+      transition: transform 0.25s ease;
+    }
+
+    .lightbox.active img { transform: scale(1); }
+
+    .project-highlights {
+      margin-bottom: 16px;
+    }
+
+    .project-highlights h4 {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .project-highlights ul {
+      list-style: none; padding: 0;
+    }
+
+    .project-highlights li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+
+    .project-highlights li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 9px;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
     }
 
     .project-card-top {
@@ -784,6 +903,8 @@
       .about-grid { grid-template-columns: 1fr; gap: 32px; }
       .skills-grid { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
+      .project-screenshots { grid-template-columns: 1fr; }
+      .mockup-showcase img { height: 240px; border-radius: 12px; }
       .highlight-grid { grid-template-columns: 1fr; }
       .edu-grid { grid-template-columns: 1fr; }
       .hero-stats { gap: 20px; }
@@ -849,8 +970,8 @@
           <div class="hero-stat-label">화주사 운영</div>
         </div>
         <div>
-          <div class="hero-stat-value" data-count="91">0%</div>
-          <div class="hero-stat-label">성능 개선</div>
+          <div class="hero-stat-value" data-count="8">0개+</div>
+          <div class="hero-stat-label">PDA 화면</div>
         </div>
         <div>
           <div class="hero-stat-value" data-count="4">0년차</div>
@@ -895,8 +1016,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </div>
             <div class="about-highlight-text">
-              <h4>성능 최적화 91% 개선</h4>
-              <p>대량 데이터 페이지네이션 최적화로 조회 시간 57초 &rarr; 5초 달성</p>
+              <h4>대량 데이터 조회 최적화</h4>
+              <p>5만건+ 배송확정 조회 57초 → 5초, 프론트 최적화 + 백엔드 협업</p>
             </div>
           </div>
           <div class="about-highlight">
@@ -949,7 +1070,7 @@
                 <li>3PL 사업 확장에 대응해 모듈을 신규 구축 &mdash; 상품/시리얼 등록부터 마감까지 전체 플로우를 처음부터 개발</li>
                 <li>화주사 추가 요청마다 반복되는 분기 코드 &rarr; 화주별 API 라우팅과 공통 컴포넌트 추상화로 <span class="metric">4개 화주사</span> 확장을 저비용으로 해결</li>
                 <li>현장 운영팀과 협업하여 RFID/바코드/다중바코드 스캔 워크플로우 설계 및 QA 테스트 매트릭스 작성</li>
-                <li>배송확정 페이지 5만건+ 조회 시 57초 소요 &rarr; API pagination 재설계 + 불필요한 요청 제거로 <span class="metric">5초로 단축 (91% 개선)</span></li>
+                <li>배송확정 페이지 5만건+ 조회 시 57초 소요 &rarr; 프론트 중복 호출 제거, 페이지네이션 전환, 가상 스크롤 적용 후 백엔드 API 재설계와 함께 <span class="metric">5초로 단축</span></li>
                 <li>동탄 물류센터 현장 파견 &mdash; 프린터/바코드 스캐너 하드웨어 연동 문제를 현장에서 직접 트러블슈팅</li>
               </ul>
             </div>
@@ -1049,11 +1170,11 @@
           </div>
           <div class="highlight-phase">
             <span class="highlight-tag solution">Solution</span>
-            <p>서버 사이드 페이지네이션으로 API 구조 재설계. 불필요한 중복 요청 제거 및 데이터 로딩 전략 개선.</p>
+            <p>프론트 쪽 중복 API 호출 제거, 가상 스크롤 적용, 페이지네이션 전환. 백엔드와 협업하여 API 구조 재설계.</p>
           </div>
           <div class="highlight-phase">
             <span class="highlight-tag result">Result</span>
-            <p>조회 시간 <strong>57초 &rarr; 5초</strong>로 단축. <span class="metric">91% 성능 개선</span> 달성.</p>
+            <p>조회 시간 <strong>57초 &rarr; 5초</strong>로 단축. 프론트&middot;백엔드 양쪽 개선의 결과.</p>
           </div>
         </div>
 
@@ -1171,101 +1292,202 @@
       <h3 class="project-group-title">Work</h3>
       <div class="projects-grid" style="margin-bottom: 40px;">
 
-        <a href="projects/wms.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">WMS</h3>
             <span class="project-type">Enterprise</span>
           </div>
           <p class="project-sub">2021 ~ 현재 &middot; 퍼플아이오</p>
           <p class="project-desc">
-            B2C/3PL 입출고, 재고, 주문, 배송확정, PDA, 마감 등
-            물류 전 프로세스를 관리하는 엔터프라이즈 웹 애플리케이션.
-            50개+ 관리 화면, 4개 화주사 운영.
+            B2C/3PL 입출고, 재고, 주문, 배송확정, PDA, 마감 등 물류 전 프로세스를 관리하는 엔터프라이즈 웹 애플리케이션.
+            50개+ 관리 화면, 4개 화주사 운영. 현장 PDA/바코드/라벨 프린터와 연동되는 물류 현장 시스템.
           </p>
-          <div class="project-tech">
-            <span>Next.js</span><span>React</span><span>TypeScript</span><span>Ant Design</span><span>Spring Boot</span>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>물류 전 프로세스(입고/출고/재고/배송확정/마감)를 50개+ 관리 화면으로 설계 및 운영</li>
+              <li>3PL 사업 확장 대응 &mdash; 상품/시리얼 등록부터 마감까지 전체 플로우 신규 구축</li>
+              <li>화주별 API 라우팅 분기 + 공통 컴포넌트 추상화로 4개 화주사 저비용 확장</li>
+              <li>RFID/바코드/다중바코드 스캔 워크플로우 설계, 동탄 물류센터 현장 파견 트러블슈팅</li>
+              <li>PDA 모바일 앱 전면 재구성 &mdash; 피킹/패킹/재고이동 등 8개 화면 신규 개발</li>
+            </ul>
           </div>
-        </a>
+          <div class="project-tech">
+            <span>Next.js</span><span>React</span><span>TypeScript</span><span>Ant Design</span><span>Spring Boot</span><span>Oracle</span>
+          </div>
+        </div>
 
-        <a href="projects/pils.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">PILS</h3>
             <span class="project-type">Internal</span>
           </div>
           <p class="project-sub">2025.09 ~ 2026.03 &middot; 퍼플아이오</p>
           <p class="project-desc">
-            개인정보 내부관리 시스템. NextAuth 인증, 사용자 행위 감사,
-            과다 접근 모니터링, 소명 게시판, 컴플라이언스 리포트.
+            개인정보 내부관리 시스템(Personal Information Lifecycle System).
+            개인정보 접근 이력 감사, 과다 접근 모니터링, 소명 프로세스, 컴플라이언스 리포트를 제공하는 사내 보안 관리 플랫폼. 프론트엔드 단독 개발.
           </p>
-          <div class="project-tech">
-            <span>Next.js</span><span>NextAuth</span><span>TailwindCSS</span><span>Playwright</span><span>TipTap</span>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>NextAuth 기반 인증 체계 설계 &mdash; JWT 동기화, SMS 2차 인증, SSE 기반 중복 로그인 감지</li>
+              <li>사용자 행위 감사 로그, 과다 접근 모니터링, 소명 게시판(TipTap), 월간 컴플라이언스 리포트</li>
+              <li>Playwright E2E 테스트 인프라 구축 &mdash; 핵심 플로우 자동 검증</li>
+            </ul>
           </div>
-        </a>
+          <div class="project-tech">
+            <span>Next.js</span><span>NextAuth</span><span>TailwindCSS</span><span>Playwright</span><span>TipTap</span><span>TypeScript</span>
+          </div>
+        </div>
 
-        <a href="projects/ai-workflow.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">AI Dev Workflow</h3>
             <span class="project-type">Automation</span>
           </div>
           <p class="project-sub">2025 ~ 현재 &middot; 퍼플아이오</p>
           <p class="project-desc">
-            Claude Code + MCP로 개발 전 과정 자동화.
-            Asana 폴링 &rarr; 분석/구현 &rarr; GitLab MR &rarr; CI/CD 배포 &rarr; Slack 알림.
+            Claude Code와 MCP를 활용해 개발 전 과정을 자동화한 워크플로우.
+            태스크 할당부터 코드 구현, MR 생성, 배포, 알림까지 사람 개입을 최소화.
           </p>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>Asana 태스크 자동 폴링 &rarr; Claude Code 코드 분석/구현 &rarr; GitLab MR 생성 &rarr; Slack 알림 자동화</li>
+              <li>Google Sheets 테스트 시트 자동 생성으로 QA 핸드오프 프로세스 개선</li>
+              <li>반복 태스크 처리 시간 대폭 단축, 야간/주말 자동 처리로 개발 병목 해소</li>
+            </ul>
+          </div>
           <div class="project-tech">
             <span>Claude Code</span><span>MCP</span><span>Asana API</span><span>Slack API</span><span>GitLab CI</span>
           </div>
-        </a>
+        </div>
 
       </div>
 
       <h3 class="project-group-title">Side</h3>
       <div class="projects-grid">
 
-        <a href="projects/dstcraft.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">DSTCraft</h3>
             <span class="project-type">Web App</span>
           </div>
           <p class="project-sub">2025 &middot; Personal</p>
           <p class="project-desc">
-            Don't Starve 게임의 제작 레시피와 아이템 정보를 검색하고 탐색할 수 있는 웹앱.
-            게임 데이터 구조 분석 및 데이터셋 구축, SEO 최적화를 통한 검색 유입 확보.
+            Don't Starve Together의 크래프팅 레시피, 요리, 보스, 캐릭터 가이드를 제공하는 종합 게임 가이드 웹앱.
+            13개 언어 지원, PWA 설치 가능, SEO 최적화로 검색 유입 확보.
+            <strong>VSCode 없이 터미널(Claude Code)과 브라우저만으로 개발.</strong>
           </p>
-          <div class="project-tech">
-            <span>Next.js</span><span>TypeScript</span><span>SEO</span><span>Static Data</span>
+          <div class="mockup-group-label">App</div>
+          <div class="mockup-showcase">
+            <img src="images/dstcraft-mock-crafting.png" alt="제작 검색">
+            <img src="images/dstcraft-mock-cookpot.png" alt="요리솥 시뮬레이터">
+            <img src="images/dstcraft-mock-cooking.png" alt="요리 상세">
+            <img src="images/dstcraft-mock-settings.png" alt="설정 / 다국어">
           </div>
-        </a>
+          <div class="mockup-group-label">Analytics</div>
+          <div class="mockup-showcase">
+            <img src="images/dstcraft-mock-stats.png" alt="접속 통계">
+            <img src="images/dstcraft-mock-chart.png" alt="접속자 추이">
+            <img src="images/dstcraft-mock-referral.png" alt="유입 출처 / 국가별">
+          </div>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>게임 Lua 소스코드에서 Claude Code로 데이터 구조 추출 &rarr; TypeScript 타입 기반 정적 데이터셋 구축</li>
+              <li>Crock Pot 시뮬레이터 &mdash; 게임 내 Lua 로직을 분석하여 요리 결과 예측 재현</li>
+              <li>기획/설계/프롬프팅에 집중하고, 구현은 AI와 협업 &mdash; 13개 언어 i18n, PWA, SEO까지 1인 완성</li>
+            </ul>
+          </div>
+          <div class="project-tech">
+            <span>Next.js 15</span><span>TypeScript</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>PWA</span>
+          </div>
+          <div class="project-links">
+            <a href="https://dstcraft.com" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              dstcraft.com
+            </a>
+            <a href="https://github.com/fankimm/dst-craft" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
 
-        <a href="projects/mh-save-editor.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">MH Save Editor</h3>
             <span class="project-type">Reverse Eng.</span>
           </div>
           <p class="project-sub">2017 &middot; Personal</p>
-          <p class="project-desc">
-            게임 세이브 파일을 헥스 에디터로 분석하여 데이터 구조를 역공학.
-            메모리 오프셋 분석을 통해 특정 값 수정 기능을 구현한 세이브 에디터.
-          </p>
-          <div class="project-tech">
-            <span>C/C++</span><span>Hex Analysis</span><span>Reverse Engineering</span>
+          <div class="project-screenshots">
+            <div class="project-screenshot"><img src="images/mh-editor-terminal.png" alt="MH Save Editor 실행 화면"></div>
           </div>
-        </a>
+          <p class="project-desc">
+            개발자가 되기 전, 순수한 호기심으로 만든 첫 프로그램.
+            몬스터헌터 세이브 파일을 헥스 에디터로 분석하여 바이너리 데이터 구조를 역공학하고
+            C/C++로 아이템 에디터를 구현했다.
+          </p>
+          <p class="project-desc" style="margin-top: 8px; padding: 14px; background: var(--bg-secondary); border-radius: 8px; font-size: 12px; line-height: 1.8; color: var(--text-tertiary);">
+            이 프로젝트를 만들 때는 Git이 뭔지도 몰랐다.
+            당연히 소스 코드는 유실되었고, 남은 건 컴파일된 바이너리 파일 하나뿐.
+            이력서를 작업하면서 스크린샷이라도 넣고 싶었지만 세이브 파일이 없어 실행조차 할 수 없었다.
+            결국 남은 바이너리에서 <code>strings</code>와 <code>otool</code>로 UI 문자열과 구조를 추출한 뒤,
+            AI를 활용하여 소스 코드를 복원했다.
+          </p>
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>처음에는 아이템 데이터가 바이트 단위일 거라 생각하고 접근 &mdash;
+                첫 번째 슬롯 수정은 성공했지만, 두 번째 슬롯을 건드리면 첫 번째까지 깨지는 현상 발생</li>
+              <li>1주일간의 삽질 끝에 데이터가 <strong>바이트가 아닌 비트 단위로 패킹</strong>되어 있다는 것을 발견 &mdash;
+                아이템 ID 12비트 + 수량 7비트 = <strong>슬롯당 19비트</strong>, 바이트 경계를 무시하는 구조</li>
+              <li>비트 단위 읽기/쓰기 로직을 구현하여 CLI 에디터 완성</li>
+              <li>소스 유실 후 바이너리 분석 + AI 활용으로 소스 코드 복원 (2026)</li>
+            </ul>
+          </div>
+          <div class="project-tech">
+            <span>C/C++</span><span>Hex Analysis</span><span>Reverse Engineering</span><span>Binary Parsing</span>
+          </div>
+        </div>
 
-        <a href="projects/planet-wars.html" class="project-card" style="text-decoration:none;color:inherit;display:block;">
+        <div class="project-card">
           <div class="project-card-top">
             <h3 class="project-name">Planet Wars / Wave Synth</h3>
             <span class="project-type">Creative</span>
           </div>
           <p class="project-sub">2020 &middot; Personal</p>
           <p class="project-desc">
-            p5.js 브라우저 게임과 Web Audio API 신디사이저.
+            p5.js 브라우저 기반 우주 전략 게임과 Web Audio API 신디사이저.
             음악과 코드의 접점을 보여주는 크리에이티브 코딩 프로젝트.
           </p>
-          <div class="project-tech">
-            <span>p5.js</span><span>Web Audio API</span><span>JavaScript</span>
+          <div class="project-screenshots">
+            <div class="project-screenshot">images/planet-wars-1.png</div>
+            <div class="project-screenshot">images/planet-wars-2.png</div>
           </div>
-        </a>
+          <!-- Planet Wars 스크린샷: 직접 캡쳐 후 images/planet-wars-1.png, planet-wars-2.png로 저장 -->
+          <div class="project-highlights">
+            <h4>주요 작업</h4>
+            <ul>
+              <li>행성 간 유닛 이동, 전투 시뮬레이션, AI 적군 전략 의사결정 로직</li>
+              <li>Web Audio API로 키보드 입력 실시간 음 생성, ADSR 엔벨로프 컨트롤</li>
+            </ul>
+          </div>
+          <div class="project-tech">
+            <span>p5.js</span><span>Web Audio API</span><span>JavaScript</span><span>Canvas</span>
+          </div>
+          <div class="project-links">
+            <a href="https://fankimm.github.io/Planet-Wars" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Live Demo
+            </a>
+            <a href="https://github.com/fankimm/Planet-Wars" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1424,6 +1646,24 @@
       }
     }, { threshold: 0.3 });
     heroObserver.observe(document.getElementById('hero'));
+
+    // Lightbox
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = '<img>';
+    document.body.appendChild(lb);
+    const lbImg = lb.querySelector('img');
+
+    document.querySelectorAll('.mockup-showcase img, .project-screenshot img').forEach(img => {
+      img.addEventListener('click', () => {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lb.classList.add('active');
+      });
+    });
+
+    lb.addEventListener('click', () => lb.classList.remove('active'));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('active'); });
   </script>
 </body>
 </html>
